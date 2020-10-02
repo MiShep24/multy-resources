@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html  lang='ru' dir='ltr'>
+	<head>
+		<meta charset="utf-8">
+		<title>Find your profession</title>
+		<style>
+			div {
+				width: 550px;
+				height: 350px;
+				background-image: url(image/background.jpg);
+				background-size: cover;
+				margin: auto;
+			}
+			
+			.coin {
+				position: relative;
+				top: -215px;
+				left: -460px;
+			}
+		
+			img {
+				width: 90px;
+				height: 30px;
+				padding-left : 130px;
+				padding-top : -100px;
+				background-repeat : no-repeat;
+				margin: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style = "border: 5px solid gray">
+			<canvas id="slot" width="470" height="265"></canvas>
+			<canvas class="coin" id="coin" width="40" height="40"></canvas>
+			<br>
+			<img src="image/start.png" class="start" onclick="startSpinning()"> 
+			<img src="image/stop.png" class="stop" onclick="stopSpinning()">
+			<script src="js/slot.js"></script>
+			<script src="js/game.js"></script> 
+		</div>
+	</body>
+</html>
