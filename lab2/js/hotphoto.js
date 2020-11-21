@@ -1,6 +1,8 @@
 const cvs = document.getElementById('canvas')
 const ctx = cvs.getContext('2d')
 
+let histMap = new Map()
+
 function loadPict(input) {
 	let pict = input.files[0].name
 	showPict(canvas, pict)
@@ -74,6 +76,50 @@ function blackAndWhite() {
 	ctx.putImageData(myImgData, 0, myImgData.height + 10, 0, 0, myImgData.width, myImgData.height)
 	ctx.putImageData(secImgData, secImgData.width + 5, 0 , 0, 0, secImgData.width, secImgData.height)
 	ctx.putImageData(hotImg, secImgData.width + 5, myImgData.height + 10, 0, 0, hotImg.width, hotImg.height)
+	
+//	let myData = hotImg.data
+	
+	for (let i = 0; i < arr.length; i += 4){
+		let histArr = [arr[i], arr[i+1], arr[i+2]]
+		histMap.set(histArr, 1)
+	}
+	
+	let histArr = new Array()
+	
+	for (let [key, value] of histMap) {
+		let flag = true
+		for (let i = 0; i < histArr.length; i++) {
+			if (key[0] == histArr[i][0][0] && key[1] == histArr[i][0][1] && key[2] == histArr[i][0][2]) {
+				flag = false
+				histArr[i][1]++
+			}
+		}
+		if (flag) histArr.push([key, 1])
+	}
+	
+	for (let i = 0; i < histArr.length - 1; i++) {
+		let maxVal = histArr[i][1]
+		let pos 
+		for (let j = i + 1; j < histArr.length; j++)
+			if (histArr[j][1] > maxVal) {
+				maxVal = histArr[j][1]
+				pos = j
+			}
+		let changes = histArr[pos]
+		histArr[pos] = histArr[i]
+		histArr[i] = changes
+	}
+	console.log(histArr)
+
+	for (let i = 1; i < 9; i++){
+		let rColor = histArr[i][0][0]
+		let gColor = histArr[i][0][1]
+		let bColor = histArr[i][0][2]
+//		console.log(rColor, gColor, bColor)
+		ctx.fillStyle = `rgb(${rColor},${gColor},${bColor})`
+		ctx.fillRect(2 * secImgData.width + 10, (i - 1) * 15 + secImgData.height + 10, myImgData.width / 2, 10)
+	}
+	histMap.clear()
 }
 
 function grayColor(data, index){
